@@ -3,11 +3,13 @@ package cf.searchforme.physicsengine.engine;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.ToString;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -15,6 +17,7 @@ import static cf.searchforme.physicsengine.engine.util.LambdaExceptionUtil.rethr
 
 @Getter
 @Setter
+@ToString
 public class ContextualConfiguration {
 
     private final static Field[] fields = ContextualConfiguration.class.getDeclaredFields();
@@ -31,13 +34,42 @@ public class ContextualConfiguration {
 
     @SneakyThrows
     public static ContextualConfiguration fromFile(File file) {
-        ContextualConfiguration configuration = new ContextualConfiguration();
-
         Properties properties = new Properties();
         properties.load(new FileInputStream(file));
 
-        Arrays.asList(fields).forEach(rethrowConsumer(field -> field.set(configuration, properties.get(field.getName()))));
+        return fromProperties(properties);
+    }
+
+    @SneakyThrows
+    public static ContextualConfiguration fromProperties(Properties properties) {
+        ContextualConfiguration configuration = new ContextualConfiguration();
+
+        Arrays.stream(fields)
+                .filter(field -> !Modifier.isStatic(field.getModifiers()))
+                .forEach(rethrowConsumer(field -> field.set(configuration,
+                        getValue((String) properties.get(field.getName())))));
 
         return configuration;
+    }
+
+    private static Object getValue(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException ignored) {
+        }
+        try {
+            return Long.parseLong(str);
+        } catch (NumberFormatException ignored) {
+        }
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException ignored) {
+        }
+        try {
+            return Boolean.parseBoolean(str);
+        } catch (NumberFormatException ignored) {
+        }
+
+        return str;
     }
 }

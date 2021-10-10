@@ -1,7 +1,7 @@
 package cf.searchforme.physicsengine.engine.collision;
 
 import cf.searchforme.physicsengine.engine.SimulationContext;
-import cf.searchforme.physicsengine.engine.body.ConvexBody;
+import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
 import cf.searchforme.physicsengine.engine.datastructure.Vector;
 
 import java.util.ArrayList;
@@ -9,88 +9,88 @@ import java.util.List;
 
 public class Gjk implements CollisionDetection {
 
-    public boolean collides(ConvexBody body1, ConvexBody body2) {
-        Vector origin = Vector.zero();
-        List<Vector> simplex = new ArrayList<>();
+    private final SimulationContext simulation;
 
-        Vector direction = body2.getCenter().subtract(body2.getCenter()).normalize();
+    public Gjk(SimulationContext simulation) {
+        this.simulation = simulation;
+    }
 
-        simplex.add(getSupportPoint(body1, body2, direction));
+    public ArrayList<Vector> getCollisionSimplex(ConvexShape body1, ConvexShape body2) {
+        ArrayList<Vector> simplex = new ArrayList<>();
 
-        // Checks if the support point hasn't passed the origin, thus making it
-        // impossible for the bodies to collide
-        if (simplex.get(0).dot(direction) <= 0) {
-            return false;
-        }
+        Vector direction = body1.getCenter().subtract(body2.getCenter());
 
-        direction = origin.subtract(simplex.get(0));
+        if (direction.getX() == 0 && direction.getY() == 0) direction.setX(1);
 
-        for (int i = 0; i < SimulationContext.getInstance().getConfiguration().getMaxGjkIterations(); i++) {
-            Vector support = getSupportPoint(body1, body2, direction);
+        simplex.add(ConvexShape.getSupportPoint(body1, body2, direction));
+
+        // Didn't pass the origin
+        if (simplex.get(0).dot(direction) <= 0) return null;
+
+        direction.set(simplex.get(0).clone().negate());
+
+        for (int i = 0; i < simulation.getConfiguration().getMaxGjkIterations(); i++) {
+            Vector support = ConvexShape.getSupportPoint(body1, body2, direction);
 
             // New support point didn't pass the origin
-            if (support.dot(direction) <= 0) return false;
+            if (support.dot(direction) <= 0) return null;
 
             simplex.add(support);
 
-            if (handleSimplex(simplex, direction)) return true;
+            if (handleSimplex(simplex, direction)) return simplex;
         }
 
-        return false;
+        return null;
     }
 
-    public Vector getSupportPoint(ConvexBody body1, ConvexBody body2, Vector direction) {
-        Vector d = direction.clone();
-
-        Vector point1 = body1.getFurthestPoint(d);
-        Vector point2 = body2.getFurthestPoint(d.negate());
-
-        return point1.to(point2);
+    public boolean collides(ConvexShape body1, ConvexShape body2) {
+        return getCollisionSimplex(body1, body2) != null;
     }
 
     // Checking whether the simplex contains the origin
     public boolean handleSimplex(List<Vector> simplex, Vector direction) {
+        Vector a = simplex.get(simplex.size() - 1);
+
+        if (a.dot(direction) <= 0) return false;
+
+        Vector ao = a.clone().negate();
+
         if (simplex.size() == 2) { // Line case
-            Vector a = simplex.get(1);
             Vector b = simplex.get(0);
 
-            Vector ab = b.to(a);
-            Vector ao = Vector.zero().to(a);
+            Vector ab = b.subtract(a);
 
             direction.set(Vector.tripleProduct(ab, ao, ab));
 
-            if (direction.getMagnitudeSquared() <= 0) direction.set(ab.left());
-        } else if (simplex.size() == 3) { // Triangle case
-            Vector c = simplex.get(2);
-            Vector b = simplex.get(1);
-            Vector a = simplex.get(0);
+            if (direction.getMagnitudeSquared() == 0) direction.set(ab.getOrthogonal());
 
-            Vector ab = b.to(a);
-            Vector ac = c.to(a);
-            Vector ao = Vector.zero().subtract(a);
-
-            Vector abPerp = Vector.tripleProduct(ac, ab, ab);
-            Vector acPerp = Vector.tripleProduct(ab, ac, ac);
-
-            if (abPerp.dot(ao) > 0) { // Region AB
-                simplex.remove(c);
-
-                direction.set(abPerp);
-
-                return false;
-            } else if (acPerp.dot(ao) > 0) { // Region AC
-                simplex.remove(b);
-
-                direction.set(acPerp);
-
-                return false;
-            }
-
-            // contains the origin
-            return true;
-        } else {
-            throw new IllegalArgumentException("Simplex vertices exceed 3");
+            return false;
         }
+
+        Vector b = simplex.get(1);
+        Vector c = simplex.get(0);
+
+        Vector ab = b.subtract(a);
+        Vector ac = c.subtract(a);
+
+        Vector acPerp = Vector.tripleProduct(ab, ac, ac);
+
+        if (acPerp.dot(ao) >= 0) {
+            simplex.remove(c);
+
+            return false;
+        } else {
+            Vector abPerp = Vector.tripleProduct(ac, ab, ab);
+
+            if (abPerp.dot(ao) < 0) return true;
+
+            simplex.remove(0);
+            simplex.set(0, b);
+
+            direction.set(abPerp);
+        }
+
+        simplex.set(1, a);
 
         return false;
     }

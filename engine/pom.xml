@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cf.searchforme.physicsengine.CollisionTest</groupId>
+    <groupId>cf.searchforme.physicsengine.GjkTest</groupId>
     <artifactId>engine</artifactId>
     <dependencies>
         <dependency>

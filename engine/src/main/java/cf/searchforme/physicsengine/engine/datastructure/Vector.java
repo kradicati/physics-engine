@@ -1,12 +1,13 @@
 package cf.searchforme.physicsengine.engine.datastructure;
 
 import cf.searchforme.physicsengine.engine.Constants;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Vector implements Cloneable {
 
     private double x, y;
@@ -45,6 +46,13 @@ public class Vector implements Cloneable {
         return this;
     }
 
+    public Vector multiply(double scalar) {
+        x *= scalar;
+        y *= scalar;
+
+        return this;
+    }
+
     public Vector to(double x, double y) {
         return new Vector(x - this.x, y - this.y);
     }
@@ -58,6 +66,10 @@ public class Vector implements Cloneable {
         this.y = -y;
 
         return this;
+    }
+
+    public Vector getNegative() {
+        return new Vector(-x, -y);
     }
 
     public double distanceSquared(double x, double y) {
@@ -108,18 +120,26 @@ public class Vector implements Cloneable {
     public boolean isOrthogonal(Vector vector) {
         return dot(vector) == 0;
     }
-    
-    public Vector normalize() {
+
+    public Vector getOrthogonal() {
+        return new Vector(y, -x);
+    }
+
+    public Vector setMagnitude(double newMagnitude) {
         double magnitude = getMagnitude();
 
         if (magnitude == 0) return new Vector();
 
-        double inverse = 1 / magnitude;
+        double inverse = newMagnitude / magnitude;
 
         x *= inverse;
         y *= inverse;
 
         return this;
+    }
+
+    public Vector normalize() {
+        return setMagnitude(1);
     }
 
     public double getAngleBetween(Vector vector) {
@@ -165,6 +185,13 @@ public class Vector implements Cloneable {
         }
     }
 
+    public static Vector fromAngle(double rad, double magnitude) {
+        double x = Math.cos(rad) * magnitude;
+        double y = Math.sin(rad) * magnitude;
+
+        return new Vector(x, y);
+    }
+
     public static Vector zero() {
         return new Vector(0, 0);
     }
@@ -172,19 +199,13 @@ public class Vector implements Cloneable {
     public static Vector tripleProduct(Vector a, Vector b, Vector c) {
         Vector r = new Vector();
 
-        /*
-         * In the following we can substitute ac and bc in r.x and r.y
-         * and with some rearrangement get a much more efficient version
-         *
-         * double ac = a.x * c.x + a.y * c.y;
-         * double bc = b.x * c.x + b.y * c.y;
-         * r.x = b.x * ac - a.x * bc;
-         * r.y = b.y * ac - a.y * bc;
-         */
+        double ac = a.dot(c);
+        double bc = b.dot(c);
 
-        double dot = a.x * b.y - b.x * a.y;
-        r.x = -c.y * dot;
-        r.y = c.x * dot;
+        //System.out.println(ac + " " + bc);
+
+        r.x = b.x * ac - a.x * bc;
+        r.y = b.y * ac - a.y * bc;
 
         return r;
     }

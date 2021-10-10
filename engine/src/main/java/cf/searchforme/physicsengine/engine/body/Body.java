@@ -4,8 +4,5 @@ import cf.searchforme.physicsengine.engine.datastructure.Vector;
 
 public interface Body {
 
-    void remove();
-
-    Vector getCenter();
 
 }

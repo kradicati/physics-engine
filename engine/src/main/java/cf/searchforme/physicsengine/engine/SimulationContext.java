@@ -14,12 +14,8 @@ public class SimulationContext {
         configuration = ContextualConfiguration.fromFile(new File("simulation.properties"));
     }
 
-    private static class Holder {
-        private static final SimulationContext INSTANCE = new SimulationContext();
-    }
-
-    public static SimulationContext getInstance() {
-        return Holder.INSTANCE;
+    public SimulationContext(ContextualConfiguration configuration) {
+        this.configuration = configuration;
     }
 
 }

@@ -1,20 +1,34 @@
-package cf.searchforme.physicsengine.engine.collision;
+package cf.searchforme.physicsengine.engine.collision.narrowphase;
 
-import cf.searchforme.physicsengine.engine.SimulationContext;
-import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.Simulation;
+import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gjk implements CollisionDetection {
+/**
+ * An implementation of the GJK (Gilbert-Johnson-Keerthi) algorithm.
+ *
+ * The algorithm is used to determine the minimum distance between two convex sets and whether they intersect.
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm">
+ *     https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm</a>
+ */
+public class Gjk implements NarrowphaseCollisionDetection {
 
-    private final SimulationContext simulation;
+    private final Simulation simulation;
 
-    public Gjk(SimulationContext simulation) {
+    public Gjk(Simulation simulation) {
         this.simulation = simulation;
     }
 
+    /**
+     * The implementation of the GJK algorithm.
+     * @param body1 The first convex body.
+     * @param body2 The second convex body.
+     * @return The resulting (possibly non-existent) simplex.
+     */
     public ArrayList<Vector> getCollisionSimplex(ConvexShape body1, ConvexShape body2) {
         ArrayList<Vector> simplex = new ArrayList<>();
 
@@ -43,11 +57,23 @@ public class Gjk implements CollisionDetection {
         return null;
     }
 
+    /**
+     * Checking whether two convex bodies collide by verifying if there is a simplex, projected by using the Minkowski
+     * difference, which surrounds the origin.
+     * @param body1 The first convex body.
+     * @param body2 The second convex body.
+     * @return Whether the two bodies collide.
+     */
     public boolean collides(ConvexShape body1, ConvexShape body2) {
         return getCollisionSimplex(body1, body2) != null;
     }
 
-    // Checking whether the simplex contains the origin
+    /**
+     * Internal utility function to check whether the provided simplex contains the origin.
+     * @param simplex The simplex
+     * @param direction The direction
+     * @return Whether the simplex contains the origin.
+     */
     public boolean handleSimplex(List<Vector> simplex, Vector direction) {
         Vector a = simplex.get(simplex.size() - 1);
 

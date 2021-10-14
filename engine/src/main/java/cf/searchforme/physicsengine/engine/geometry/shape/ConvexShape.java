@@ -1,6 +1,6 @@
-package cf.searchforme.physicsengine.engine.body.shape;
+package cf.searchforme.physicsengine.engine.geometry.shape;
 
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 
 public interface ConvexShape extends Shape {
 

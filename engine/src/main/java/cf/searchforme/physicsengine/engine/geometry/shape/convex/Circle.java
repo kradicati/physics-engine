@@ -1,7 +1,8 @@
-package cf.searchforme.physicsengine.engine.body.shape.convex;
+package cf.searchforme.physicsengine.engine.geometry.shape.convex;
 
-import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.body.Transform;
+import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,11 @@ public class Circle implements ConvexShape {
     @Override
     public Vector getCenter() {
         return center;
+    }
+
+    @Override
+    public void applyTransform(Transform transform) {
+        center.add(transform.getLinearTransform());
     }
 
     @Override

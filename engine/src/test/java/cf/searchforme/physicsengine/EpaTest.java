@@ -1,11 +1,11 @@
 package cf.searchforme.physicsengine;
 
-import cf.searchforme.physicsengine.engine.SimulationContext;
-import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.body.shape.convex.Polygon;
-import cf.searchforme.physicsengine.engine.collision.Epa;
-import cf.searchforme.physicsengine.engine.collision.Gjk;
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.Simulation;
+import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
+import cf.searchforme.physicsengine.engine.geometry.shape.convex.Polygon;
+import cf.searchforme.physicsengine.engine.collision.narrowphase.Epa;
+import cf.searchforme.physicsengine.engine.collision.narrowphase.Gjk;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class EpaTest {
 
     @Test
     public void epa_polygons() {
-        SimulationContext simulation = new SimulationContext();
+        Simulation simulation = new Simulation();
 
         Gjk gjk = new Gjk(simulation);
 

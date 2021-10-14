@@ -1,4 +1,4 @@
-package cf.searchforme.physicsengine.engine.datastructure;
+package cf.searchforme.physicsengine.engine.util.datastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

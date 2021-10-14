@@ -1,15 +1,15 @@
-package cf.searchforme.physicsengine.engine.collision;
+package cf.searchforme.physicsengine.engine.collision.narrowphase;
 
 import cf.searchforme.physicsengine.engine.Constants;
-import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 
 import java.util.ArrayList;
 
 public class Epa {
 
     public Vector getPenetration(ArrayList<Vector> polytope, ConvexShape body1, ConvexShape body2) {
-        System.out.println(polytope);
+        if (polytope == null || polytope.isEmpty()) return null;
 
         int minIndex = 0;
         double minDistance = Double.POSITIVE_INFINITY;
@@ -24,13 +24,8 @@ public class Epa {
 
                 Vector ij = vj.subtract(vi);
 
-                ij.right().normalize();
+                ij = Vector.tripleProduct(ij, vi, ij).normalize();
                 double distance = ij.dot(vi);
-
-                if (distance < 0) {
-                    distance *= -1;
-                    ij.negate();
-                }
 
                 if (distance < minDistance) {
                     minDistance = distance;

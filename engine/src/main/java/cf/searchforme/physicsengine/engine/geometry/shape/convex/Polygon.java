@@ -1,7 +1,8 @@
-package cf.searchforme.physicsengine.engine.body.shape.convex;
+package cf.searchforme.physicsengine.engine.geometry.shape.convex;
 
-import cf.searchforme.physicsengine.engine.body.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.datastructure.Vector;
+import cf.searchforme.physicsengine.engine.body.Transform;
+import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
+import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,6 +37,11 @@ public class Polygon implements ConvexShape {
         avg.set(new Vector(avg.getX() / vertices.length,
                 avg.getY() / vertices.length));
         return avg;
+    }
+
+    @Override
+    public void applyTransform(Transform transform) {
+
     }
 
     /*

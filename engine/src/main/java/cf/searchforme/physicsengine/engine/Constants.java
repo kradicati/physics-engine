@@ -1,9 +1,18 @@
 package cf.searchforme.physicsengine.engine;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Constants {
 
-    public static final double TWO_PI = 2 * Math.PI;
-    public static final double EPSILON;
+    public final double TWO_PI = 2 * Math.PI;
+
+    public final double PI_OVER_TWO = Math.PI / 2;
+
+    public final double EPSILON;
+
+    public final double DEG_RAD = Math.PI / 180;
+    public final double RAD_DEG = 180 / Math.PI;
 
     static {
         double e = 0.5;

@@ -1,7 +1,7 @@
 package cf.searchforme.physicsengine;
 
-import cf.searchforme.physicsengine.engine.geometry.shape.convex.Ellipse;
-import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
+import cf.searchforme.engine.geometry.shape.convex.Ellipse;
+import cf.searchforme.engine.util.datastructure.Vector;
 import org.junit.Test;
 
 public class EllipseTest {

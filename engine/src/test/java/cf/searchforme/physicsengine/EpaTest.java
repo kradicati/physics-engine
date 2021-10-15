@@ -1,11 +1,11 @@
 package cf.searchforme.physicsengine;
 
-import cf.searchforme.physicsengine.engine.Simulation;
-import cf.searchforme.physicsengine.engine.geometry.shape.ConvexShape;
-import cf.searchforme.physicsengine.engine.geometry.shape.convex.Polygon;
-import cf.searchforme.physicsengine.engine.collision.narrowphase.Epa;
-import cf.searchforme.physicsengine.engine.collision.narrowphase.Gjk;
-import cf.searchforme.physicsengine.engine.util.datastructure.Vector;
+import cf.searchforme.engine.Simulation;
+import cf.searchforme.engine.geometry.shape.ConvexShape;
+import cf.searchforme.engine.geometry.shape.convex.Polygon;
+import cf.searchforme.engine.collision.narrowphase.Epa;
+import cf.searchforme.engine.collision.narrowphase.Gjk;
+import cf.searchforme.engine.util.datastructure.Vector;
 import org.junit.Test;
 
 import java.util.ArrayList;

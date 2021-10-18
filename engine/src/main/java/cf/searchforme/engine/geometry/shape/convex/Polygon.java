@@ -82,4 +82,12 @@ public class Polygon implements ConvexShape {
         return vertices[maxIndex];
     }
 
+    public Polygon clone() {
+        try {
+            return (Polygon) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

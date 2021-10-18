@@ -62,6 +62,7 @@ public class GjkTest {
         ArrayList<Vector> simplex = gjk.getCollisionSimplex(cvx1, cvx2);
 
         System.out.println(simplex == null ? "false" : "true: " + simplex);
+        System.out.println(cvx1 + " " + cvx2);
     }
 
     @Test
@@ -80,6 +81,8 @@ public class GjkTest {
         Circle circle = new Circle(vector(0, 0), 3);
 
         System.out.println(gjk.collides(convexPolygon, circle));
+
+        System.out.println(convexPolygon + " " + circle);
     }
 
     private Vector vector(double x, double y) {

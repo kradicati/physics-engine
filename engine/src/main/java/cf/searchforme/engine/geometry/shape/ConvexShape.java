@@ -2,7 +2,7 @@ package cf.searchforme.engine.geometry.shape;
 
 import cf.searchforme.engine.util.datastructure.Vector;
 
-public interface ConvexShape extends Shape {
+public interface ConvexShape extends Shape, Cloneable {
 
     Vector getFurthestPoint(Vector direction);
 
@@ -14,5 +14,7 @@ public interface ConvexShape extends Shape {
 
         return point1.clone().subtract(point2);
     }
+
+    ConvexShape clone();
 
 }

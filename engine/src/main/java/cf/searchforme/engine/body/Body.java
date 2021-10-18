@@ -31,6 +31,8 @@ public class Body {
     }
 
     public void applyForce(Force force) {
+        if (getMass() == 0.f) return;
+
         forces.add(force);
     }
 

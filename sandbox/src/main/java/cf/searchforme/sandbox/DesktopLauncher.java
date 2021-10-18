@@ -11,7 +11,7 @@ public class DesktopLauncher {
     public static void main(String[] args) {
 
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-        configuration.setIdleFPS(120);
+        configuration.setIdleFPS(60);
         configuration.useVsync(true);
         configuration.setTitle("Sandbox");
 

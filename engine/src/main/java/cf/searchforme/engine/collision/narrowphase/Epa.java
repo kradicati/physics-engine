@@ -43,7 +43,8 @@ public class Epa {
             }
         }
 
-        return minNormal.multiply(minDistance + 0.001);
+        //return minNormal.multiply(minDistance + 0.001);
+        return minNormal.multiply(minDistance);
     }
 
 }

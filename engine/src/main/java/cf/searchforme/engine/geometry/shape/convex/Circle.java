@@ -5,9 +5,11 @@ import cf.searchforme.engine.geometry.shape.ConvexShape;
 import cf.searchforme.engine.util.datastructure.Vector;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Circle implements ConvexShape {
 
     private Vector center;
@@ -33,6 +35,14 @@ public class Circle implements ConvexShape {
         Vector direction = vector.clone().setMagnitude(radius);
 
         return new Vector(center.getX() + direction.getX(), center.getY() + direction.getY());
+    }
+
+    public Circle clone() {
+        try {
+            return (Circle) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

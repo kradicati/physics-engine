@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class Force {
+public class Force implements Cloneable {
 
     private double mass;
     private Vector acceleration;
@@ -16,4 +16,13 @@ public class Force {
     public Vector getForce() {
         return acceleration.clone().multiply(mass);
     }
+
+    public Force clone() {
+        try {
+            return (Force) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

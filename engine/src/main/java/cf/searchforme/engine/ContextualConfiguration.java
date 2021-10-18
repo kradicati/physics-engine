@@ -1,5 +1,7 @@
 package cf.searchforme.engine;
 
+import cf.searchforme.engine.collision.narrowphase.Gjk;
+import cf.searchforme.engine.collision.narrowphase.NarrowphaseCollisionDetection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -22,8 +24,9 @@ public class ContextualConfiguration {
 
     private final static Field[] fields = ContextualConfiguration.class.getDeclaredFields();
 
-    private double gravity = 9.80665d;
-    private int maxGjkIterations = 30;
+    private Double gravity = 9.80665;
+    private Integer maxGjkIterations = 30;
+    //private Class<? extends NarrowphaseCollisionDetection> narrowphaseCollisionDetectionClass = Gjk.class;
 
     @SneakyThrows
     public void save(File file) {
@@ -53,6 +56,13 @@ public class ContextualConfiguration {
     }
 
     private static Object getValue(String str) {
+        /*
+        try {
+            return Class.forName(str);
+        } catch (ClassNotFoundException ignored) {
+        }
+         */
+        System.out.println(str);
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException ignored) {
@@ -71,5 +81,15 @@ public class ContextualConfiguration {
         }
 
         return str;
+    }
+
+    private String toString(Object object) {
+        if (object instanceof Class) {
+            return ((Class) object).getName();
+        } else if (object instanceof Number) {
+            return String.valueOf(object);
+        }
+
+        return (String) object;
     }
 }

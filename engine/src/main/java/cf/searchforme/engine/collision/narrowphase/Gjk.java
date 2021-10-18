@@ -2,6 +2,7 @@ package cf.searchforme.engine.collision.narrowphase;
 
 import cf.searchforme.engine.Simulation;
 import cf.searchforme.engine.geometry.shape.ConvexShape;
+import cf.searchforme.engine.geometry.shape.convex.Circle;
 import cf.searchforme.engine.util.datastructure.Vector;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Gjk implements NarrowphaseCollisionDetection {
     public ArrayList<Vector> getCollisionSimplex(ConvexShape body1, ConvexShape body2) {
         ArrayList<Vector> simplex = new ArrayList<>();
 
-        Vector direction = body1.getCenter().subtract(body2.getCenter());
+        Vector direction = body1.getCenter().clone().subtract(body2.getCenter());
 
         if (direction.getX() == 0 && direction.getY() == 0) direction.setX(1);
 

@@ -6,8 +6,10 @@ import cf.searchforme.engine.geometry.shape.ConvexShape;
 import cf.searchforme.engine.util.datastructure.Vector;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@ToString
 public class Ellipse implements ConvexShape {
 
     private Vector center;
@@ -43,5 +45,13 @@ public class Ellipse implements ConvexShape {
     @Override
     public void applyTransform(Transform transform) {
         center.add(transform.getLinearTransform());
+    }
+
+    public Ellipse clone() {
+        try {
+            return (Ellipse) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

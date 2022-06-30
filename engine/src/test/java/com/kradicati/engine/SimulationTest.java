@@ -18,28 +18,37 @@ public class SimulationTest {
     public void update() {
         long start = System.currentTimeMillis();
 
-        double height = 60;
+        double height = 100000;
 
         Vector center = new Vector(0, height);
         Body body = new Body(12, center, new Circle(center, 5));
-        Simulation simulation = new Simulation();
+        Simulation simulation = new Simulation(new ContextualConfiguration());
 
         simulation.getBodyManager().addBody(body);
 
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 
+        double expectedTime = Math.sqrt((2 * height) / Math.abs(simulation.getConfiguration().getGravity()));
+
         service.scheduleAtFixedRate(() -> {
             simulation.update(25);
 
-            if (body.getCenter().getY() <= 0) {
+            if (body.getPosition().getY() <= 0) {
                 double taken = (System.currentTimeMillis() - start) / 1000f;
-                double expected = Math.sqrt((2 * height) / simulation.getConfiguration().getGravity());
-                System.out.printf("t=%f e=%f d=%f", taken, expected, Math.abs(taken - expected));
+                
+                System.out.printf("t=%f e=%f d=%f\n", taken,
+                        expectedTime,
+                        Math.abs(taken - expectedTime));
+
+                double expectedVelocity = simulation.getConfiguration().getGravity() * expectedTime;
+                System.out.printf("v_y=%f e=%f d=%f\n", body.getLinearVelocity().getY(),
+                        expectedVelocity,
+                        Math.abs(body.getLinearVelocity().getY() - expectedVelocity));
                 service.shutdown();
             }
         }, 0, 25, TimeUnit.MILLISECONDS);
 
-        Thread.sleep(4000);
+        Thread.sleep((long) ((expectedTime * 1.05) * 1000));
     }
 
 }

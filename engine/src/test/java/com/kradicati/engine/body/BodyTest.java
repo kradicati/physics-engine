@@ -12,7 +12,7 @@ public class BodyTest {
 
         Body body = new Body(1, center, new Circle(center, 3));
 
-        System.out.println(body.clearResultantForces());
+        //System.out.println(body.clearResultantForces());
     }
 
     @Test

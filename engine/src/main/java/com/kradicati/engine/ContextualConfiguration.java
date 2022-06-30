@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -22,7 +23,7 @@ public class ContextualConfiguration {
 
     private final static Field[] fields = ContextualConfiguration.class.getDeclaredFields();
 
-    private Double gravity = 9.80665;
+    private Double gravity = -9.80665;
     private Integer maxGjkIterations = 30;
     //private Class<? extends NarrowphaseCollisionDetection> narrowphaseCollisionDetectionClass = Gjk.class;
 
@@ -36,7 +37,7 @@ public class ContextualConfiguration {
     @SneakyThrows
     public static ContextualConfiguration fromFile(File file) {
         Properties properties = new Properties();
-        properties.load(new FileInputStream(file));
+        properties.load(Files.newInputStream(file.toPath()));
 
         return fromProperties(properties);
     }

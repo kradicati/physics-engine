@@ -1,9 +1,9 @@
 package cf.searchforme.sandbox.libgdx;
 
-import cf.searchforme.engine.body.Body;
-import cf.searchforme.engine.geometry.shape.convex.Circle;
-import cf.searchforme.engine.geometry.shape.convex.Polygon;
-import cf.searchforme.engine.util.datastructure.Vector;
+import com.kradicati.engine.body.Body;
+import com.kradicati.engine.geometry.shape.convex.Circle;
+import com.kradicati.engine.geometry.shape.convex.Polygon;
+import com.kradicati.engine.util.datastructure.Vector;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 

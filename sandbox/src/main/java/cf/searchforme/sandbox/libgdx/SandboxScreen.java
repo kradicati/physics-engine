@@ -1,8 +1,8 @@
 package cf.searchforme.sandbox.libgdx;
 
-import cf.searchforme.engine.body.Body;
-import cf.searchforme.engine.geometry.shape.convex.Circle;
-import cf.searchforme.engine.geometry.shape.convex.Polygon;
+import com.kradicati.engine.body.Body;
+import com.kradicati.engine.geometry.shape.convex.Circle;
+import com.kradicati.engine.geometry.shape.convex.Polygon;
 import cf.searchforme.sandbox.util.MiscUtil;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,8 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class SandboxScreen implements Screen {
 

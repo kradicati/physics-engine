@@ -1,11 +1,11 @@
 package cf.searchforme.physicsengine;
 
-import cf.searchforme.engine.Simulation;
-import cf.searchforme.engine.collision.narrowphase.Gjk;
-import cf.searchforme.engine.util.datastructure.Vector;
-import cf.searchforme.engine.geometry.shape.ConvexShape;
-import cf.searchforme.engine.geometry.shape.convex.Circle;
-import cf.searchforme.engine.geometry.shape.convex.Polygon;
+import com.kradicati.engine.Simulation;
+import com.kradicati.engine.collision.narrowphase.Gjk;
+import com.kradicati.engine.util.datastructure.Vector;
+import com.kradicati.engine.geometry.shape.ConvexShape;
+import com.kradicati.engine.geometry.shape.convex.Circle;
+import com.kradicati.engine.geometry.shape.convex.Polygon;
 import org.junit.Test;
 
 import java.util.ArrayList;

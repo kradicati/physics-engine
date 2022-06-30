@@ -17,7 +17,7 @@ public class DouglasPeuckerSimplification implements Simplification {
         double maxDistance = 0;
         int maxIndex = 0;
 
-        Vector az = polyline.get(polyline.size() - 1).clone().subtract(polyline.get(0));
+        Vector az = polyline.get(polyline.size() - 1).subtract(polyline.get(0));
 
         for (int i = 1; i < polyline.size() - 1; i++) {
             Vector vertex = polyline.get(i);

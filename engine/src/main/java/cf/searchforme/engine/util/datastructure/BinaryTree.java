@@ -72,7 +72,7 @@ public class BinaryTree<E extends Comparable<E>> {
      */
     public Node<E> root() {
         /* If tree is empty, return null
-         * else return return root node */
+         * else return root node */
         if (isEmpty()) {
             return null;
         } else {

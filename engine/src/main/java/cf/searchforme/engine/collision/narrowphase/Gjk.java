@@ -10,11 +10,10 @@ import java.util.List;
 
 /**
  * An implementation of the GJK (Gilbert-Johnson-Keerthi) algorithm.
- *
+ * <p>
  * The algorithm is used to determine the minimum distance between two convex sets and whether they intersect.
  *
- * @see <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm">
- *     https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm">GJK</a>
  */
 public class Gjk implements NarrowphaseCollisionDetection {
 
@@ -33,7 +32,7 @@ public class Gjk implements NarrowphaseCollisionDetection {
     public ArrayList<Vector> getCollisionSimplex(ConvexShape body1, ConvexShape body2) {
         ArrayList<Vector> simplex = new ArrayList<>();
 
-        Vector direction = body1.getCenter().clone().subtract(body2.getCenter());
+        Vector direction = body1.getCenter().subtract(body2.getCenter());
 
         if (direction.getX() == 0 && direction.getY() == 0) direction.setX(1);
 
@@ -42,7 +41,7 @@ public class Gjk implements NarrowphaseCollisionDetection {
         // Didn't pass the origin
         if (simplex.get(0).dot(direction) <= 0) return null;
 
-        direction.set(simplex.get(0).clone().negate());
+        direction.set(simplex.get(0).negate());
 
         for (int i = 0; i < simulation.getConfiguration().getMaxGjkIterations(); i++) {
             Vector support = ConvexShape.getSupportPoint(body1, body2, direction);
@@ -80,41 +79,38 @@ public class Gjk implements NarrowphaseCollisionDetection {
 
         if (a.dot(direction) <= 0) return false;
 
-        Vector ao = a.clone().negate();
+        Vector ao = a.negate();
 
         if (simplex.size() == 2) { // Line case
             Vector b = simplex.get(0);
 
-            Vector ab = b.subtract(a);
+            b = b.subtract(a);
 
-            direction.set(Vector.tripleProduct(ab, ao, ab));
+            direction.set(Vector.tripleProduct(b, ao, b));
 
-            if (direction.getMagnitudeSquared() == 0) direction.set(ab.getOrthogonal());
+            if (direction.getMagnitudeSquared() == 0) direction.set(b.getOrthogonal());
 
             return false;
         }
 
-        Vector b = simplex.get(1);
-        Vector c = simplex.get(0);
+        Vector b = simplex.get(1).subtract(a);
+        Vector c = simplex.get(0).subtract(a);
 
-        Vector ab = b.subtract(a);
-        Vector ac = c.subtract(a);
-
-        Vector acPerp = Vector.tripleProduct(ab, ac, ac);
+        Vector acPerp = Vector.tripleProduct(b, c, c);
 
         if (acPerp.dot(ao) >= 0) {
             simplex.remove(c);
 
             return false;
         } else {
-            Vector abPerp = Vector.tripleProduct(ac, ab, ab);
+            Vector bPerp = Vector.tripleProduct(c, b, b);
 
-            if (abPerp.dot(ao) < 0) return true;
+            if (bPerp.dot(ao) < 0) return true;
 
             simplex.remove(0);
             simplex.set(0, b);
 
-            direction.set(abPerp);
+            direction.set(bPerp);
         }
 
         simplex.set(1, a);

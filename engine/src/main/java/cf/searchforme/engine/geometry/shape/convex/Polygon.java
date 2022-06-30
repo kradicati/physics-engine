@@ -31,7 +31,7 @@ public class Polygon implements ConvexShape {
         Vector avg = Vector.zero();
 
         for (Vector vertex : vertices) {
-            avg.add(vertex.getX(), vertex.getY());
+            avg = avg.add(vertex.getX(), vertex.getY());
         }
 
         avg.set(new Vector(avg.getX() / vertices.length,
@@ -47,7 +47,7 @@ public class Polygon implements ConvexShape {
         double cos = Math.cos(transform.getAngularTransform());
 
         for (Vector vertex : vertices) {
-            Vector relativeVertex = vertex.clone().subtract(center);
+            Vector relativeVertex = vertex.subtract(center);
             double magnitude = relativeVertex.getMagnitude();
 
             relativeVertex.normalize();

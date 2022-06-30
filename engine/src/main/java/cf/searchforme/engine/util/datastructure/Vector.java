@@ -25,38 +25,23 @@ public class Vector implements Cloneable {
     }
 
     public Vector add(double x, double y) {
-        this.x += x;
-        this.y += y;
-
-        return this;
+        return new Vector(this.x + x, this.y + y);
     }
 
     public Vector add(Vector vector) {
-        x += vector.getX();
-        y += vector.getY();
-
-        return this;
+        return new Vector(this.x + vector.getX(), this.y + vector.getY());
     }
 
     public Vector subtract(double x, double y) {
-        this.x -= x;
-        this.y -= y;
-
-        return this;
+        return new Vector(this.x - x, this.y - y);
     }
 
     public Vector subtract(Vector vector) {
-        x -= vector.getX();
-        y -= vector.getY();
-
-        return this;
+        return new Vector(this.x - vector.getX(), this.y - vector.getY());
     }
 
     public Vector multiply(double scalar) {
-        x *= scalar;
-        y *= scalar;
-
-        return this;
+        return new Vector(this.x * scalar, this.y * scalar);
     }
 
     public Vector to(double x, double y) {
@@ -68,10 +53,7 @@ public class Vector implements Cloneable {
     }
 
     public Vector negate() {
-        this.x = -x;
-        this.y = -y;
-
-        return this;
+        return new Vector(-this.x, -this.y);
     }
 
     public Vector getNegative() {
@@ -169,7 +151,7 @@ public class Vector implements Cloneable {
         return this;
     }
 
-    Vector rotate(double cos, double sin) {
+    public Vector rotate(double cos, double sin) {
         double x = this.x;
         double y = this.y;
 

@@ -14,7 +14,7 @@ public class Force implements Cloneable {
     private Vector acceleration;
 
     public Vector getForce() {
-        return acceleration.clone().multiply(mass);
+        return acceleration.multiply(mass);
     }
 
     public Force clone() {

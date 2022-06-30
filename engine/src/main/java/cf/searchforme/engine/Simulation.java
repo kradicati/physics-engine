@@ -81,8 +81,8 @@ public class Simulation {
                     double v2np = (v2n * (other.getMass() - body.getMass()) + 2 * body.getMass() * v1n)
                             / (body.getMass() + other.getMass());
 
-                    Vector vv1np = normal.clone().multiply(v1np);
-                    Vector vv1tp = tangent.clone().multiply(v1t);
+                    Vector vv1np = normal.multiply(v1np);
+                    Vector vv1tp = tangent.multiply(v1t);
                     Vector vv2np = normal.multiply(v2np);
                     Vector vv2tp = tangent.multiply(v2t);
 
@@ -96,7 +96,7 @@ public class Simulation {
             Vector forces = body.clearResultantForces().multiply(seconds);
 
             Vector velocity = body.getLinearVelocity().add(forces);
-            body.setLinearVelocity(velocity.clone());
+            body.setLinearVelocity(velocity);
             transform.setLinearTransform(velocity.multiply(seconds));
 
             body.applyTransform(transform);

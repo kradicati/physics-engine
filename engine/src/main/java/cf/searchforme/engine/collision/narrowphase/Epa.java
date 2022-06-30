@@ -19,8 +19,8 @@ public class Epa {
             for (int i = 0; i < polytope.size(); i++) {
                 int j = (i + 1) % polytope.size();
 
-                Vector vi = polytope.get(i).clone();
-                Vector vj = polytope.get(j).clone();
+                Vector vi = polytope.get(i);
+                Vector vj = polytope.get(j);
 
                 Vector ij = vj.subtract(vi);
 

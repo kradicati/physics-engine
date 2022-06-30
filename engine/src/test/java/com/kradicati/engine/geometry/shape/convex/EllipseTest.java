@@ -1,4 +1,4 @@
-package cf.searchforme.physicsengine;
+package com.kradicati.engine.geometry.shape.convex;
 
 import com.kradicati.engine.geometry.shape.convex.Ellipse;
 import com.kradicati.engine.util.datastructure.Vector;

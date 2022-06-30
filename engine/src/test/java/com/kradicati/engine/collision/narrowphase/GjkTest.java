@@ -1,4 +1,4 @@
-package cf.searchforme.physicsengine;
+package com.kradicati.engine.collision.narrowphase;
 
 import com.kradicati.engine.Simulation;
 import com.kradicati.engine.collision.narrowphase.Gjk;
